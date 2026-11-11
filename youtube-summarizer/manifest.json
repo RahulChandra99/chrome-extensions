@@ -1,0 +1,23 @@
+{
+  "manifest_version": 3,
+  "name": "YouTube Exact Summarizer",
+  "version": "1.0.0",
+  "description": "Summarizes YouTube videos from their transcript into categorized bullet and numbered points, with clickable timestamps. Powered by Claude.",
+  "permissions": ["storage"],
+  "host_permissions": ["https://api.anthropic.com/*"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_title": "YouTube Exact Summarizer settings"
+  },
+  "options_page": "options.html",
+  "content_scripts": [
+    {
+      "matches": ["https://www.youtube.com/*"],
+      "js": ["content.js"],
+      "css": ["content.css"],
+      "run_at": "document_idle"
+    }
+  ]
+}

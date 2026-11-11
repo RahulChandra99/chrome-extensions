@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>YouTube Exact Summarizer – Settings</title>
+  <style>
+    :root { color-scheme: light dark; }
+    body { font-family: system-ui, sans-serif; max-width: 520px; margin: 40px auto; padding: 0 16px; line-height: 1.5; }
+    h1 { font-size: 20px; }
+    label { display: block; font-weight: 600; margin-top: 18px; }
+    input, select { width: 100%; box-sizing: border-box; padding: 8px; margin-top: 6px; font: inherit; }
+    small { color: GrayText; display: block; margin-top: 4px; }
+    button { margin-top: 20px; padding: 8px 18px; font: inherit; cursor: pointer; }
+    #saved { margin-left: 10px; color: green; }
+  </style>
+</head>
+<body>
+  <h1>YouTube Exact Summarizer</h1>
+
+  <label for="apiKey">Anthropic API key</label>
+  <input id="apiKey" type="password" placeholder="sk-ant-..." autocomplete="off">
+  <small>Get one at console.anthropic.com. It is stored only in this browser and sent only to api.anthropic.com.</small>
+
+  <label for="effort">Thoroughness</label>
+  <select id="effort">
+    <option value="low">Low – fastest</option>
+    <option value="medium" selected>Medium – balanced (default)</option>
+    <option value="high">High – most careful, slower</option>
+  </select>
+
+  <label for="language">Summary language</label>
+  <input id="language" type="text" value="English">
+
+  <button id="save">Save</button><span id="saved"></span>
+
+  <script src="options.js"></script>
+</body>
+</html>
