@@ -1,0 +1,37 @@
+{
+  "manifest_version": 3,
+  "name": "Shred Log: Save Links",
+  "short_name": "Shred Log",
+  "version": "1.1.0",
+  "description": "One click sends the page you're on to your Shred Log, sorted into the right topic. YouTube videos go to Watch later.",
+  "icons": { "16": "icons/icon16.png", "32": "icons/icon32.png", "48": "icons/icon48.png", "128": "icons/icon128.png" },
+  "action": {
+    "default_title": "Save to Shred Log",
+    "default_popup": "popup.html",
+    "default_icon": { "16": "icons/icon16.png", "32": "icons/icon32.png", "48": "icons/icon48.png" }
+  },
+  "background": { "service_worker": "background.js" },
+  "options_page": "options.html",
+  "permissions": ["storage", "tabs", "activeTab", "scripting", "contextMenus", "bookmarks"],
+  "host_permissions": ["<all_urls>"],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["bridge.js"],
+      "all_frames": true,
+      "match_about_blank": true,
+      "match_origin_as_fallback": true,
+      "run_at": "document_idle"
+    }
+  ],
+  "commands": {
+    "_execute_action": {
+      "suggested_key": { "default": "Alt+Shift+S", "mac": "Alt+Shift+S" },
+      "description": "Save this page and open the Shred Log popup"
+    },
+    "quick-save": {
+      "suggested_key": { "default": "Alt+Shift+D", "mac": "Alt+Shift+D" },
+      "description": "Save this page without opening the popup"
+    }
+  }
+}

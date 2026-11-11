@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Shred Log</title>
+<link rel="stylesheet" href="popup.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand"><img src="icons/icon32.png" alt="" width="24" height="24"><span>Shred Log</span></div>
+  <button type="button" class="iconbtn" id="settings" title="Settings" aria-label="Settings">
+    <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M19.4 13a7.6 7.6 0 0 0 0-2l2-1.6-2-3.4-2.4 1a7.4 7.4 0 0 0-1.7-1L15 3.5h-4l-.4 2.5a7.4 7.4 0 0 0-1.7 1l-2.4-1-2 3.4 2 1.6a7.6 7.6 0 0 0 0 2l-2 1.6 2 3.4 2.4-1a7.4 7.4 0 0 0 1.7 1l.4 2.5h4l.4-2.5a7.4 7.4 0 0 0 1.7-1l2.4 1 2-3.4-2-1.6ZM13 15.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Z" transform="translate(-1 0)"/></svg>
+  </button>
+</header>
+
+<main id="app">
+  <!-- filled by popup.js -->
+  <section class="card skeleton" aria-busy="true">
+    <div class="sk sk-img"></div>
+    <div class="grow"><div class="sk sk-line"></div><div class="sk sk-line short"></div></div>
+  </section>
+</main>
+
+<template id="tpl-saved">
+  <section class="status" data-state="">
+    <div class="tick" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+    <div class="status-txt"><b class="status-title"></b><span class="status-sub"></span></div>
+    <button type="button" class="ghostbtn sm" data-act="undo">Undo</button>
+  </section>
+
+  <section class="card preview">
+    <div class="thumb"><img alt="" referrerpolicy="no-referrer"></div>
+    <div class="grow">
+      <div class="pv-title"></div>
+      <div class="pv-site"><img class="fav" alt="" width="14" height="14"><span></span></div>
+    </div>
+  </section>
+
+  <section class="topic">
+    <div class="topic-head">
+      <div class="topic-now"><span class="topic-ic"></span><div><b class="topic-name"></b><small class="topic-why"></small></div></div>
+      <button type="button" class="linkbtn" data-act="toggle-topics" aria-expanded="false">Change</button>
+    </div>
+    <div class="chips" role="radiogroup" aria-label="Topic" hidden></div>
+  </section>
+
+  <section class="note">
+    <label for="note">Note <span class="opt">optional</span></label>
+    <textarea id="note" rows="2" placeholder="Why you saved it, or what to do with it"></textarea>
+    <small class="note-state" aria-live="polite"></small>
+  </section>
+
+  <div class="actions">
+    <button type="button" class="btn primary" data-act="open">Open in Shred Log <span aria-hidden="true">→</span></button>
+  </div>
+</template>
+
+<section class="recent" id="recent" hidden>
+  <h2>Recently saved</h2>
+  <ul></ul>
+</section>
+
+<footer class="foot"><span id="conn"></span><span class="kbd">Alt+Shift+S</span></footer>
+<script src="classify.js"></script>
+<script src="popup.js"></script>
+</body>
+</html>
