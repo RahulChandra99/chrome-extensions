@@ -4,10 +4,7 @@ Small Chrome extensions I build for my own workflow. Each folder is a standalone
 
 | Extension | What it does |
 | --- | --- |
-| [Shred Log Link Saver](shred-log) | One click or a right-click saves a page or link into my tracker app, sorted into a topic. YouTube videos go to a watch-later list |
 | [YouTube Exact Summarizer](youtube-summarizer) | Summarises a YouTube video from its transcript into sorted notes with clickable timestamps |
-
-![Shred Log popup](shred-log/screenshot.png)
 
 ## Trying one
 

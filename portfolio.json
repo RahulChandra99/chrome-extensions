@@ -2,19 +2,6 @@
   "category": "extensions",
   "items": [
     {
-      "title": "Shred Log Link Saver",
-      "path": "shred-log",
-      "summary": "One click (or a right-click on any link) saves it to my personal tracker app, sorted into the right topic.",
-      "highlights": [
-        "Rule-based topic sorter that runs locally, plus custom rules",
-        "Offline queue that delivers into a web app through a content-script bridge",
-        "Right-click menu, bookmarks-bar inbox folder and keyboard shortcuts"
-      ],
-      "tags": ["JavaScript", "Chrome MV3", "Service Worker"],
-      "image": "shred-log/screenshot.png",
-      "status": "active"
-    },
-    {
       "title": "YouTube Exact Summarizer",
       "path": "youtube-summarizer",
       "summary": "Adds a summary panel to YouTube that turns the transcript into sorted notes with clickable timestamps.",
@@ -23,7 +10,11 @@
         "Streams a structured summary from the Claude API",
         "Every point links back to its moment in the video"
       ],
-      "tags": ["JavaScript", "Chrome MV3", "Claude API"],
+      "tags": [
+        "JavaScript",
+        "Chrome MV3",
+        "Claude API"
+      ],
       "status": "active"
     }
   ]
