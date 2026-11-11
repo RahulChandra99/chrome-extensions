@@ -1,43 +1,38 @@
-# Shred Log for Chrome
+# Shred Log Link Saver
 
-One click sends the page you're on to your Shred Log, sorted into a topic.
+Shred Log is the tracker app I run my days from. It lives as a page on claude.ai. This extension gets links into it without copy and paste.
 
-- **YouTube videos** go to **Saves → Watch later**, with the channel and length.
-- **Everything else** goes to **Saves → Saved links**: topics, Today's 5, Keep / Done / Drop, search, and notes.
+Click the toolbar button and the page you're on is saved. Right-click any link and it's saved without opening it. YouTube videos land in my Watch later list with the channel and length. Everything else goes to Saved links, already sorted into a topic like Workouts, Game dev or Jobs & visa.
 
-## Install (one time)
+![Popup after saving a recipe](screenshot.png)
 
-1. Open `chrome://extensions` in Chrome.
-2. Turn on **Developer mode** (top right).
-3. Click **Load unpacked** and pick this `shred-log-extension` folder.
-4. Click the puzzle piece 🧩 in the toolbar and pin **Shred Log**.
+## Install
 
-Stay signed in to claude.ai in Chrome. Links are written through your Shred Log page, so they sync to your account.
+1. Open `chrome://extensions` and switch on Developer mode.
+2. Click Load unpacked and pick this folder.
+3. Pin it from the puzzle piece menu in the toolbar.
 
-## Using it
+You need to be signed in to claude.ai in the same Chrome. Links are written through the Shred Log page itself, so they sync like anything else in the app.
 
-| Do this | What happens |
-| --- | --- |
-| Click the toolbar button | Saves the page right away. The popup shows where it went, and you can change the topic, add a note or undo |
-| `Alt+Shift+S` | Same as clicking the button |
-| `Alt+Shift+D` | Saves without the popup and shows a small "Saved" note on the page |
-| Right-click a link → **Send link to Shred Log** | Saves the link without opening it, with a small "Sending… / Sent" note on the page |
-| Drag a bookmark onto the **📥 Shred Log** folder on your bookmarks bar | Sends it, and the bookmark goes back to where it was. Dragging a folder sends every link inside |
-| ⭐ Star a page into the **📥 Shred Log** folder | Sends the page, with no extra bookmark left behind |
+## Ways to save
 
-Chrome doesn't let extensions add items to the bookmarks bar's own right-click menu, so the 📥 folder is the one-step way to send bookmarks.
+- Toolbar button or `Alt+Shift+S` saves the page and opens a small popup. Wrong topic? Change it there, add a note, or undo.
+- `Alt+Shift+D` saves without the popup.
+- Right-click a link and pick "Send link to Shred Log".
+- Drag a bookmark onto the "Shred Log inbox" folder on the bookmarks bar. It gets sent and pops back to where it was. Drop a whole folder on it and every link inside goes.
+- Click the star in the address bar and file the page under "Shred Log inbox". Same thing, and no stray bookmark is left behind.
 
-If your Shred Log isn't open, the extension opens it in a pinned background tab to receive the link. While links are waiting, the toolbar badge shows a count.
+Chrome won't let extensions add items to the bookmarks bar's own right-click menu. That's why the inbox folder exists.
 
-## Sorting
+If Shred Log isn't open, the extension opens it in a pinned background tab and hands the links over. Anything waiting shows as a count on the toolbar badge.
 
-Links are sorted on your machine from the site, the title and the description, with no AI calls. The topics match your Shred Log: AI & Claude, Tech & coding, Jobs & visa, Game dev, Workouts, Food, Hair/skin/style, Dating & social, Mindset, Places, Watch, Games, Music, Articles, Learn, Money, Shopping, Funny and Unsorted.
+## How sorting works
 
-To add your own rules (for example `hitmarker.net → Jobs & visa`) or try the sorter, open the extension's **Settings** (the gear in the popup).
+No AI here. `classify.js` scores each link on its domain (bbcgoodfood.com is food, greenhouse.io is a job post), then on words in the title and description. Your own rules in Settings run first, so `hitmarker.net` can always go to Jobs & visa.
 
 ## Files
 
-- `background.js`: the queue, delivery to your Shred Log tab, right-click menu and shortcuts
-- `bridge.js`: runs only inside the Shred Log page (it has a `shredlog-inbox` tag) and passes links in and replies back
-- `classify.js`: the topic sorter
-- `popup.*` and `options.*`: the interface
+- `background.js` handles the queue, delivery, the right-click menu, the bookmarks inbox and shortcuts
+- `bridge.js` only wakes up inside the Shred Log page and passes messages in and out
+- `classify.js` is the topic sorter
+- `popup.*` and `options.*` are the UI

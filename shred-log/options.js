@@ -55,7 +55,7 @@ $("#bmInbox").addEventListener("change", (e) => persist({ bmInbox: e.target.chec
 $("#makeFolder").addEventListener("click", async () => {
   if (!state.bmInbox) { $("#bmInbox").checked = true; await persist({ bmInbox: true }); }
   const id = await chrome.runtime.sendMessage({ type: "inbox-folder" });
-  flag(id ? "📥 Shred Log is on your bookmarks bar" : "Couldn't add the folder");
+  flag(id ? "Shred Log inbox is on your bookmarks bar" : "Couldn't add the folder");
 });
 
 async function tryIt() {

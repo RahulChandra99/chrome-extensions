@@ -291,8 +291,8 @@ async function saveLink(url, tabId, frameId) {
   return entry;
 }
 
-/* ---------- bookmarks bar inbox: anything put in the "📥 Shred Log" folder is sent ---------- */
-const INBOX_TITLE = "📥 Shred Log";
+/* ---------- bookmarks bar inbox: anything put in the "Shred Log inbox" folder is sent ---------- */
+const INBOX_TITLE = "Shred Log inbox";
 async function inboxFolder(create) {
   const { bmInbox = true } = await chrome.storage.sync.get("bmInbox");
   if (!bmInbox) return null;
@@ -325,7 +325,7 @@ async function sendBookmarks(nodes) {
   return out;
 }
 chrome.bookmarks.onCreated.addListener(async (id, node) => {
-  // a new bookmark made straight into the folder (e.g. the ⭐ star, folder picked) is sent, then tidied away
+  // a new bookmark made straight into the folder (e.g. the star button with this folder picked) is sent, then tidied away
   const fid = await inboxFolder(false);
   if (!fid || node.parentId !== fid || !node.url) return;
   await sendBookmarks([node]);
@@ -337,7 +337,7 @@ chrome.bookmarks.onMoved.addListener(async (id, info) => {
   if (!fid || info.parentId !== fid || info.oldParentId === fid) return;
   const [node] = await chrome.bookmarks.getSubTree(id);
   const leaves = []; (function walk(n) { if (n.url) leaves.push(n); (n.children || []).forEach(walk); })(node);
-  // a bookmark made seconds ago and moved here from the ⭐ dialog: send it and remove it
+  // a bookmark made seconds ago and moved here from the star dialog: send it and remove it
   const fresh = node.url && Date.now() - (node.dateAdded || 0) < 120000;
   if (fresh) { await sendBookmarks(leaves); setTimeout(() => chrome.bookmarks.remove(id).catch(() => {}), 1500); return; }
   // an existing bookmark dragged onto the folder: put it straight back where it was, then send it
