@@ -14,7 +14,7 @@ async function persist(patch) {
 }
 
 function catOptions(sel) {
-  return SL.CATS.map(([k, l, e]) => `<option value="${k}" ${k === sel ? "selected" : ""}>${e} ${l}</option>`).join("");
+  return SL.CATS.map(([k, l]) => `<option value="${k}" ${k === sel ? "selected" : ""}>${l}</option>`).join("");
 }
 function renderRules() {
   const box = $("#rules");
@@ -22,7 +22,7 @@ function renderRules() {
       <input type="text" data-f="m" placeholder="website or word" aria-label="Website or word">
       <span class="arrow" aria-hidden="true">→</span>
       <select data-f="c" aria-label="Topic">${catOptions(r.c)}</select>
-      <button type="button" class="x" data-del="${i}" aria-label="Remove rule" title="Remove">✕</button></div>`).join("");
+      <button type="button" class="x" data-del="${i}" aria-label="Remove rule" title="Remove">×</button></div>`).join("");
   box.querySelectorAll(".rule").forEach((row, i) => { row.querySelector("input").value = state.rules[i].m || ""; });
 }
 
@@ -65,7 +65,7 @@ async function tryIt() {
   const r = SL.classify(meta, state.rules);
   const ci = SL.catInfo(r.c);
   const where = SL.isYouTubeVideo(meta.u) ? "Watch later" : "Saved links";
-  $("#tryOut").innerHTML = `<span class="e">${ci[2]}</span><div><b></b><small></small></div>`;
+  $("#tryOut").innerHTML = `<span class="cdot" style="--c:${ci[2]}"></span><div><b></b><small></small></div>`;
   $("#tryOut b").textContent = `${ci[1]} · ${where}`;
   $("#tryOut small").textContent = r.why;
 }
@@ -75,9 +75,9 @@ $("#tryText").addEventListener("keydown", (e) => { if (e.key === "Enter") tryIt(
 async function renderQueue() {
   const { queue = [], recent = [], lastSeen = 0, lastMode } = await chrome.storage.local.get(["queue", "recent", "lastSeen", "lastMode"]);
   const bits = [];
-  bits.push(queue.length ? `⏳ ${queue.length} waiting to be delivered.` : "✓ Nothing waiting.");
+  bits.push(queue.length ? `${queue.length} waiting to be delivered.` : "Nothing waiting.");
   bits.push(`${recent.length} in the recent list.`);
-  if (lastSeen) bits.push(lastMode === "local" ? "⚠️ Last time, your Shred Log wasn't signed in, so links saved on that device only." : `Last talked to your Shred Log ${new Date(lastSeen).toLocaleString()}.`);
+  if (lastSeen) bits.push(lastMode === "local" ? "Last time, your Shred Log wasn't signed in, so links saved on that device only." : `Last talked to your Shred Log ${new Date(lastSeen).toLocaleString()}.`);
   $("#queueInfo").textContent = bits.join(" ");
 }
 $("#retryAll").addEventListener("click", () => { chrome.runtime.sendMessage({ type: "deliver" }); flag("Sending…"); });

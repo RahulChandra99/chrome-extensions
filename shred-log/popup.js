@@ -14,8 +14,16 @@ function ago(t) {
   return Math.floor(s / 86400) + "d";
 }
 
+/* a tinted tile with the topic's first letter */
+function paintThumb(el, ci) {
+  if (!el) return;
+  el.textContent = ci[1][0];
+  el.style.setProperty("--c", ci[2]);
+  el.classList.add("lettered");
+}
+
 function emptyState(title, body) {
-  app.innerHTML = `<section class="empty"><div class="big">🔗</div><b></b><span></span>
+  app.innerHTML = `<section class="empty"><img class="big" src="icons/icon48.png" alt="" width="40" height="40"><b></b><span></span>
     <button type="button" class="btn primary" data-act="open">Open Shred Log <span aria-hidden="true">→</span></button></section>`;
   $("b", app).textContent = title;
   $("span", app).textContent = body;
@@ -38,7 +46,7 @@ function build() {
   app.append($("#tpl-saved").content.cloneNode(true));
   const chips = $(".chips");
   chips.innerHTML = SL.CATS.map(([k, l, e]) =>
-    `<button type="button" class="chip" role="radio" aria-checked="false" data-c="${k}"><span class="e">${e}</span>${l}</button>`).join("");
+    `<button type="button" class="chip" role="radio" aria-checked="false" data-c="${k}" style="--c:${e}"><span class="cdot"></span>${l}</button>`).join("");
   $("#note").addEventListener("input", (ev) => {
     if (!current || !current.key) return;
     $(".note-state").textContent = "…";
@@ -63,7 +71,7 @@ function fill() {
     const T = {
       queued: ["Saving…", "Sending it to your Shred Log"],
       updating: ["Updating…", "Sending your change"],
-      saved: [e.video ? "Added to Watch later" : "Saved to Shred Log", e.local ? "Saved on that device only: sign in to Claude to sync" : `${where} · ${ci[2]} ${ci[1]}`],
+      saved: [e.video ? "Added to Watch later" : "Saved to Shred Log", e.local ? "Saved on that device only: sign in to Claude to sync" : `${where} · ${ci[1]}`],
       dup: ["Already in your Shred Log", `It's in ${where}`],
       error: ["Couldn't save", e.err || "Something went wrong"],
       removed: ["Removed", "It's out of your Shred Log"]
@@ -80,14 +88,14 @@ function fill() {
   }
   // preview
   const th = $(".thumb"), img = $(".thumb img");
-  if (img && e.img) { if (img.getAttribute("src") !== e.img) img.src = e.img; img.onerror = () => { img.remove(); th.textContent = SL.catInfo(current.c)[2]; }; }
-  else { if (img) img.remove(); th.textContent = ci[2]; }
+  if (img && e.img) { if (img.getAttribute("src") !== e.img) img.src = e.img; img.onerror = () => { img.remove(); paintThumb(th, SL.catInfo(current.c)); }; }
+  else { if (img) img.remove(); paintThumb(th, ci); }
   $(".pv-title").textContent = e.t || e.u;
   $(".pv-site span").textContent = (e.site || SL.hostOf(e.u)) + (e.by ? " · " + e.by : "") + (e.d ? " · " + e.d : "");
   const fav = $(".fav");
   if (fav) { if (e.fav && /^https?:|^data:/.test(e.fav)) { if (fav.getAttribute("src") !== e.fav) fav.src = e.fav; } else fav.remove(); }
   // topic
-  $(".topic-ic").textContent = ci[2];
+  paintThumb($(".topic-ic"), ci);
   $(".topic-name").textContent = ci[1];
   $(".topic-why").textContent = e.why || "";
   for (const b of document.querySelectorAll(".chip")) b.setAttribute("aria-checked", String(b.dataset.c === e.c));
@@ -111,7 +119,7 @@ async function renderRecent() {
   box.hidden = !list.length;
   $("ul", box).innerHTML = list.map((r) => {
     const ci = SL.catInfo(r.c);
-    return `<li><span class="e" title="${ci[1]}">${ci[2]}</span><a href="#" data-url="${encodeURI(r.u)}"></a>
+    return `<li><span class="cdot" style="--c:${ci[2]}" title="${ci[1]}"></span><a href="#" data-url="${encodeURI(r.u)}"></a>
       <span class="dot ${r.status}" title="${r.status}"></span><span class="when">${ago(r.ts)}</span></li>`;
   }).join("");
   [...box.querySelectorAll("a")].forEach((a, i) => { a.textContent = list[i].t || list[i].u; a.title = list[i].u; });
@@ -120,8 +128,8 @@ async function renderRecent() {
 async function renderConn() {
   const { lastSeen = 0, lastMode, queue = [] } = await chrome.storage.local.get(["lastSeen", "lastMode", "queue"]);
   const el = $("#conn");
-  if (queue.length) el.textContent = `⏳ ${queue.length} waiting for Shred Log`;
-  else if (lastSeen && lastMode === "local") el.textContent = "⚠️ Shred Log isn't signed in";
+  if (queue.length) el.textContent = `${queue.length} waiting for Shred Log`;
+  else if (lastSeen && lastMode === "local") el.textContent = "Shred Log isn't signed in";
   else if (lastSeen) el.innerHTML = `<span class="dot"></span>Connected to your Shred Log`;
   else el.textContent = "Shred Log opens in a pinned tab";
 }

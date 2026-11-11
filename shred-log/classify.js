@@ -1,26 +1,27 @@
 /* Shred Log link sorter: picks a topic from the site, title and description.
    Shared by the popup and the background worker. No network, nothing leaves your browser. */
 (function (root) {
+  // [id, label, colour]
   const CATS = [
-    ["ai", "AI & Claude", "🤖"],
-    ["career", "Tech & coding", "💻"],
-    ["jobs", "Jobs & visa", "🛂"],
-    ["gamedev", "Game dev", "🕹️"],
-    ["workout", "Workouts", "🏋️"],
-    ["food", "Food & recipes", "🍳"],
-    ["style", "Hair, skin & style", "🧴"],
-    ["social", "Dating & social", "💬"],
-    ["mindset", "Mindset & habits", "🧠"],
-    ["places", "Places & outings", "📍"],
-    ["watch", "Watch", "🎬"],
-    ["games", "Games", "🎮"],
-    ["music", "Music", "🎸"],
-    ["read", "Articles & reads", "📖"],
-    ["learn", "Learn something", "📚"],
-    ["money", "Money", "💷"],
-    ["shop", "Shopping", "🛍️"],
-    ["funny", "Funny", "😂"],
-    ["other", "Unsorted", "🗂️"]
+    ["ai", "AI & Claude", "#7C5CFF"],
+    ["career", "Tech & coding", "#3D5AFE"],
+    ["jobs", "Jobs & visa", "#0EA5E9"],
+    ["gamedev", "Game dev", "#8B5CF6"],
+    ["workout", "Workouts", "#F4603E"],
+    ["food", "Food & recipes", "#F2A33A"],
+    ["style", "Hair, skin & style", "#EC4C9B"],
+    ["social", "Dating & social", "#E5484D"],
+    ["mindset", "Mindset & habits", "#14B8A6"],
+    ["places", "Places & outings", "#22A06B"],
+    ["watch", "Watch", "#6366F1"],
+    ["games", "Games", "#A855F7"],
+    ["music", "Music", "#D946EF"],
+    ["read", "Articles & reads", "#B7791F"],
+    ["learn", "Learn something", "#0891B2"],
+    ["money", "Money", "#1F9D62"],
+    ["shop", "Shopping", "#F97316"],
+    ["funny", "Funny", "#EAB308"],
+    ["other", "Unsorted", "#6A7080"]
   ];
 
   /* Site → topic. A path after the domain narrows it (e.g. linkedin.com/jobs). */

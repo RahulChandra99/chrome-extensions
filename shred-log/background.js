@@ -260,7 +260,7 @@ async function quickSave(tab, src) {
   meta.fav = tab.favIconUrl || "";
   const { entry, again } = await save(meta, { src });
   const ci = SL.catInfo(entry.c);
-  pageToast(tab.id, again ? "Already in your Shred Log" : "Saved to Shred Log", `${ci[2]} ${ci[1]} · ${entry.where}`);
+  pageToast(tab.id, again ? "Already in your Shred Log" : "Saved to Shred Log", `${ci[1]} · ${entry.where}`);
 }
 
 /* the words of the link you right-clicked, used as its title if the site gives none */
@@ -287,7 +287,7 @@ async function saveLink(url, tabId, frameId) {
   else if (text && text.length > 3 && !meta.s) meta.s = text;
   const { entry, again } = await save(meta, { src: "ext-menu" });
   const ci = SL.catInfo(entry.c);
-  pageToast(tabId, again ? "Already in your Shred Log" : "Sent to Shred Log", `${ci[2]} ${ci[1]} · ${entry.t || SL.hostOf(entry.u)}`);
+  pageToast(tabId, again ? "Already in your Shred Log" : "Sent to Shred Log", `${ci[1]} · ${entry.t || SL.hostOf(entry.u)}`);
   return entry;
 }
 
@@ -321,7 +321,7 @@ async function sendBookmarks(nodes) {
     out.push((await save(meta, { src: "ext-bookmark" })).entry);
   }
   const ci = SL.catInfo(out[0].c);
-  pageToast(tabId, out.length === 1 ? "Sent to Shred Log" : `Sent ${out.length} links to Shred Log`, out.length === 1 ? `${ci[2]} ${ci[1]} · ${out[0].t || SL.hostOf(out[0].u)}` : "Sorted into topics");
+  pageToast(tabId, out.length === 1 ? "Sent to Shred Log" : `Sent ${out.length} links to Shred Log`, out.length === 1 ? `${ci[1]} · ${out[0].t || SL.hostOf(out[0].u)}` : "Sorted into topics");
   return out;
 }
 chrome.bookmarks.onCreated.addListener(async (id, node) => {

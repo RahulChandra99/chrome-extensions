@@ -32,7 +32,7 @@ code{font-family:ui-monospace,"SF Mono",monospace;font-size:12.5px;background:va
 #rules:empty::before{content:"No rules yet.";color:var(--muted);font-size:13px}
 .tryout:empty{display:none}
 .tryout{display:flex;align-items:center;gap:12px;background:var(--accent-soft);border-radius:12px;padding:10px 12px}
-.tryout .e{font-size:22px}
+.tryout .cdot{width:14px;height:14px}
 .tryout small{display:block;color:var(--muted)}
 .keys{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px}
 .keys .kbd{margin-right:8px}
