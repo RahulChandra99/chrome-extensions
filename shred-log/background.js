@@ -423,5 +423,18 @@ chrome.runtime.onMessage.addListener((msg, sender, reply) => {
   return true;
 });
 
+/* another extension can hand over a link with a short note (my video notes extension does) */
+chrome.runtime.onMessageExternal.addListener((msg, sender, reply) => {
+  if (!msg || msg.type !== "vn-save" || !sender.id) return;
+  const str = (v, max) => String(v || "").slice(0, max);
+  (async () => {
+    if (!/^https?:\/\//i.test(msg.url || "")) throw new Error("Only web links can be saved.");
+    const res = await save({ u: str(msg.url, 2000), t: str(msg.title, 300), by: str(msg.by, 120), d: str(msg.duration, 12), img: str(msg.image, 600) }, { src: "ext" });
+    if (msg.note) await followUp(res.entry.key, "note", { note: str(msg.note, 2000) });
+    return { ok: true, where: res.entry.where };
+  })().then(reply, e => reply({ ok: false, error: e.message }));
+  return true;
+});
+
 /* if the Shred Log tab closes with links still waiting, they stay queued and go next time */
 setInterval(() => { getLocal().then(({ queue }) => { if (queue.length) deliver(); }); }, 20000);
