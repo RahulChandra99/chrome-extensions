@@ -2,37 +2,128 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>YouTube Exact Summarizer – Settings</title>
+  <title>Video to Notes settings</title>
   <style>
-    :root { color-scheme: light dark; }
-    body { font-family: system-ui, sans-serif; max-width: 520px; margin: 40px auto; padding: 0 16px; line-height: 1.5; }
-    h1 { font-size: 20px; }
-    label { display: block; font-weight: 600; margin-top: 18px; }
-    input, select { width: 100%; box-sizing: border-box; padding: 8px; margin-top: 6px; font: inherit; }
-    small { color: GrayText; display: block; margin-top: 4px; }
-    button { margin-top: 20px; padding: 8px 18px; font: inherit; cursor: pointer; }
-    #saved { margin-left: 10px; color: green; }
+    :root { color-scheme: light dark; --line: #e4e4ea; --dim: #6b6b78; --accent: #6e56cf; --panel: #f6f6f8; }
+    @media (prefers-color-scheme: dark) { :root { --line: #303039; --dim: #9a9aa8; --accent: #9e8cfc; --panel: #202026; } }
+    body { font: 14px/1.5 system-ui, sans-serif; max-width: 600px; margin: 32px auto 80px; padding: 0 18px; }
+    h1 { font-size: 21px; margin: 0 0 4px; }
+    h2 { font-size: 15px; margin: 0 0 2px; }
+    .sub { color: var(--dim); margin: 0 0 22px; }
+    section { border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; margin: 14px 0; }
+    label { display: block; font-weight: 600; margin-top: 14px; }
+    label.check { display: flex; align-items: center; gap: 8px; font-weight: 500; margin-top: 8px; }
+    input[type="text"], input[type="password"], input[type="url"], select { width: 100%; box-sizing: border-box; padding: 7px 9px; margin-top: 5px; font: inherit; border: 1px solid var(--line); border-radius: 8px; background: transparent; color: inherit; }
+    small { color: var(--dim); display: block; margin-top: 4px; }
+    .row { display: flex; gap: 10px; align-items: center; margin-top: 10px; }
+    button { padding: 7px 16px; font: inherit; font-weight: 600; cursor: pointer; border-radius: 8px; border: 1px solid var(--line); background: var(--panel); color: inherit; }
+    button.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .bar { position: fixed; left: 0; right: 0; bottom: 0; padding: 12px 18px; border-top: 1px solid var(--line); background: Canvas; display: flex; justify-content: center; gap: 12px; align-items: center; }
+    #saved, #notion-result { color: var(--dim); }
+    details { margin-top: 10px; } summary { cursor: pointer; color: var(--accent); font-weight: 600; }
+    ol { padding-left: 20px; margin: 8px 0 0; color: var(--dim); }
   </style>
 </head>
 <body>
-  <h1>YouTube Exact Summarizer</h1>
+  <h1>Video to Notes</h1>
+  <p class="sub">Everything here stays in this browser.</p>
 
-  <label for="apiKey">Anthropic API key</label>
-  <input id="apiKey" type="password" placeholder="sk-ant-..." autocomplete="off">
-  <small>Get one at console.anthropic.com. It is stored only in this browser and sent only to api.anthropic.com.</small>
+  <section>
+    <h2>Claude</h2>
+    <label for="apiKey">Anthropic API key</label>
+    <input id="apiKey" type="password" placeholder="sk-ant-..." autocomplete="off">
+    <small>From console.anthropic.com. It's sent only to api.anthropic.com, and each set of notes is billed to your account.</small>
 
-  <label for="effort">Thoroughness</label>
-  <select id="effort">
-    <option value="low">Low – fastest</option>
-    <option value="medium" selected>Medium – balanced (default)</option>
-    <option value="high">High – most careful, slower</option>
-  </select>
+    <label for="model">Model</label>
+    <select id="model"></select>
+    <small id="model-note"></small>
 
-  <label for="language">Summary language</label>
-  <input id="language" type="text" value="English">
+    <label for="level">Notes length to start with</label>
+    <select id="level">
+      <option value="brief">Brief: TL;DR and key points</option>
+      <option value="standard">Standard: sections, points and takeaways</option>
+      <option value="detailed">Detailed: full study notes</option>
+    </select>
 
-  <button id="save">Save</button><span id="saved"></span>
+    <label for="effort">Thoroughness</label>
+    <select id="effort">
+      <option value="low">Low, fastest</option>
+      <option value="medium">Medium</option>
+      <option value="high">High, most careful and slower</option>
+    </select>
 
+    <label for="language">Write notes in</label>
+    <input id="language" type="text" placeholder="English">
+    <small>Any language. The video can be in a different one.</small>
+  </section>
+
+  <section>
+    <h2>Notion</h2>
+    <small>Each set of notes becomes a page under the page you pick, or a row if you pick a database.</small>
+    <label for="notionToken">Integration token</label>
+    <input id="notionToken" type="password" placeholder="ntn_... or secret_..." autocomplete="off">
+    <label for="notionParent">Page or database link</label>
+    <input id="notionParent" type="text" placeholder="https://www.notion.so/Video-notes-1a2b3c...">
+    <div class="row"><button id="notion-test">Test connection</button><span id="notion-result"></span></div>
+    <details>
+      <summary>How to get these</summary>
+      <ol>
+        <li>Go to notion.so/profile/integrations and create a new internal integration. Copy its token.</li>
+        <li>Open the Notion page or database you want notes in. In its menu, choose Connections and add your integration.</li>
+        <li>Copy that page's link and paste it above.</li>
+      </ol>
+      <small>If it's a database, columns named Category, Tags, Channel and a URL column are filled in when they exist.</small>
+    </details>
+  </section>
+
+  <section>
+    <h2>Files</h2>
+    <small>Notes are saved into a "Video Notes" folder in your Downloads.</small>
+    <label for="fileFormat">Format</label>
+    <select id="fileFormat">
+      <option value="md">Markdown (.md), opens in Obsidian, VS Code and most note apps</option>
+      <option value="txt">Plain text (.txt), opens in Notepad and TextEdit</option>
+    </select>
+  </section>
+
+  <section>
+    <h2>Obsidian</h2>
+    <label for="obsVault">Vault name</label>
+    <input id="obsVault" type="text" placeholder="My Vault">
+    <label for="obsFolder">Folder inside the vault</label>
+    <input id="obsFolder" type="text" placeholder="Video Notes">
+    <small>Chrome asks once whether it may open Obsidian. Long notes travel through the clipboard.</small>
+  </section>
+
+  <section>
+    <h2>Webhook</h2>
+    <label for="hookUrl">URL</label>
+    <input id="hookUrl" type="url" placeholder="https://hooks.zapier.com/...">
+    <small>Gets a JSON POST with title, url, channel, category, tags, markdown and text. Works with Zapier, Make and n8n, which can pass notes on to Google Docs, Slack and the rest.</small>
+  </section>
+
+  <section>
+    <h2>Link saver extension</h2>
+    <label for="saverId">Extension ID</label>
+    <input id="saverId" type="text" placeholder="32 letters, from chrome://extensions">
+    <small>Sends the video and a short summary to another extension that accepts them.</small>
+  </section>
+
+  <section>
+    <h2>Send automatically</h2>
+    <small>As soon as notes are written, also send them to:</small>
+    <label class="check"><input type="checkbox" data-auto="file">A file in Downloads</label>
+    <label class="check"><input type="checkbox" data-auto="notion">Notion</label>
+    <label class="check"><input type="checkbox" data-auto="hook">Webhook</label>
+    <label class="check"><input type="checkbox" data-auto="saver">Link saver extension</label>
+  </section>
+
+  <div class="bar"><button class="primary" id="save">Save</button><span id="saved"></span></div>
+
+  <script src="lib/captions.js"></script>
+  <script src="lib/markdown.js"></script>
+  <script src="lib/claude.js"></script>
+  <script src="lib/out.js"></script>
   <script src="options.js"></script>
 </body>
 </html>

@@ -4,7 +4,7 @@ Small Chrome extensions I build for my own workflow. Each folder is a standalone
 
 | Extension | What it does |
 | --- | --- |
-| [YouTube Exact Summarizer](youtube-summarizer) | Summarises a YouTube video from its transcript into sorted notes with clickable timestamps |
+| [Video to Notes](youtube-summarizer) | Turns any captioned video into organised notes with clickable timestamps, a transcript and a place to ask questions |
 
 ## Trying one
 

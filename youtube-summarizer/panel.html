@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Video to Notes</title>
+  <link rel="stylesheet" href="panel.css">
+</head>
+<body>
+  <header class="top">
+    <div class="brand"><span class="mark"></span>Video to Notes</div>
+    <div class="top-actions">
+      <button class="icon" id="btn-library" title="Saved notes">Library</button>
+      <button class="icon" id="btn-settings" title="Settings">Settings</button>
+    </div>
+  </header>
+
+  <section class="video" id="video" hidden>
+    <div class="thumb" id="thumb"></div>
+    <div class="vinfo">
+      <div class="vtitle" id="vtitle"></div>
+      <div class="vsub" id="vsub"></div>
+      <div class="chips" id="chips"></div>
+    </div>
+  </section>
+
+  <div class="banner" id="banner" hidden></div>
+
+  <nav class="tabs" id="tabs" hidden>
+    <button data-view="notes" class="on">Notes</button>
+    <button data-view="transcript">Transcript</button>
+    <button data-view="ask">Ask</button>
+  </nav>
+
+  <main id="main">
+    <!-- no video -->
+    <section class="view empty" id="v-empty">
+      <div class="empty-art"></div>
+      <h2 id="empty-title">Open a video</h2>
+      <p id="empty-text">Go to a tab with a video and this panel will pick it up. YouTube works best. Any other site works if its video has captions.</p>
+      <div class="row center">
+        <button class="btn" id="btn-rescan">Look again</button>
+        <button class="btn" id="btn-paste">Paste a transcript</button>
+      </div>
+    </section>
+
+    <!-- notes -->
+    <section class="view" id="v-notes" hidden>
+      <div class="bar">
+        <div class="seg" id="levels" role="tablist" aria-label="Notes length">
+          <button data-level="brief" title="TL;DR and the key points">Brief</button>
+          <button data-level="standard" title="Sections, points and takeaways">Standard</button>
+          <button data-level="detailed" title="Full study notes">Detailed</button>
+        </div>
+        <button class="btn primary" id="btn-make">Make notes</button>
+      </div>
+      <div class="status" id="status"></div>
+      <article class="notes" id="notes"></article>
+      <div class="hint" id="notes-hint" hidden></div>
+    </section>
+
+    <!-- transcript -->
+    <section class="view" id="v-transcript" hidden>
+      <div class="bar">
+        <input type="search" id="t-search" placeholder="Search the transcript" autocomplete="off">
+        <label class="check" title="Scroll along with the video"><input type="checkbox" id="t-follow" checked>Follow</label>
+      </div>
+      <div class="status" id="t-status"></div>
+      <div class="lines" id="lines"></div>
+    </section>
+
+    <!-- ask -->
+    <section class="view" id="v-ask" hidden>
+      <div class="chat" id="chat"></div>
+      <div class="suggest" id="suggest"></div>
+      <form class="ask" id="ask-form">
+        <textarea id="ask-input" rows="1" placeholder="Ask about this video"></textarea>
+        <button class="btn primary" id="ask-send" type="submit">Ask</button>
+      </form>
+    </section>
+  </main>
+
+  <footer class="foot" id="foot" hidden>
+    <button class="btn" id="btn-copy">Copy</button>
+    <div class="menu-wrap">
+      <button class="btn" id="btn-download">Download</button>
+      <div class="menu" id="menu-download" hidden></div>
+    </div>
+    <div class="menu-wrap grow">
+      <button class="btn primary wide" id="btn-send">Send to</button>
+      <div class="menu up right" id="menu-send" hidden></div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" hidden></div>
+
+  <!-- library -->
+  <div class="sheet" id="library" hidden>
+    <div class="sheet-head">
+      <strong>Saved notes</strong>
+      <button class="icon" data-close>Close</button>
+    </div>
+    <input type="search" id="lib-search" placeholder="Search by title, topic or tag" autocomplete="off">
+    <div class="lib-cats" id="lib-cats"></div>
+    <div class="lib-list" id="lib-list"></div>
+  </div>
+
+  <!-- paste a transcript -->
+  <div class="sheet" id="paste" hidden>
+    <div class="sheet-head">
+      <strong>Paste a transcript</strong>
+      <button class="icon" data-close>Close</button>
+    </div>
+    <p class="small">For videos with no captions. Paste text, or pick a .vtt, .srt or .txt file. Timestamps are kept if the text has them.</p>
+    <input type="text" id="paste-title" placeholder="Title">
+    <textarea id="paste-text" rows="12" placeholder="Paste the transcript here"></textarea>
+    <div class="row">
+      <label class="btn file">Choose a file<input type="file" id="paste-file" accept=".vtt,.srt,.txt,.sbv,.xml,.ttml,text/*" hidden></label>
+      <span class="grow"></span>
+      <button class="btn primary" id="paste-go">Use this transcript</button>
+    </div>
+  </div>
+
+  <script src="lib/captions.js"></script>
+  <script src="lib/markdown.js"></script>
+  <script src="lib/claude.js"></script>
+  <script src="lib/store.js"></script>
+  <script src="lib/out.js"></script>
+  <script src="panel.js"></script>
+</body>
+</html>

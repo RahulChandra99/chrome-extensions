@@ -1,0 +1,16 @@
+#vn-launch {
+  display: flex; align-items: center; gap: 10px; width: 100%; box-sizing: border-box;
+  margin: 0 0 12px; padding: 10px 14px; border-radius: 12px; cursor: pointer;
+  font: 500 14px/1.2 Roboto, Arial, sans-serif; text-align: left;
+  color: var(--yt-spec-text-primary, #0f0f0f);
+  background: var(--yt-spec-badge-chip-background, rgba(0, 0, 0, 0.05));
+  border: 1px solid transparent;
+}
+#vn-launch:hover { border-color: #6e56cf; }
+#vn-launch .vn-mark {
+  width: 18px; height: 18px; border-radius: 5px; flex: none;
+  background: linear-gradient(#6e56cf, #6e56cf) 4px 5px / 10px 2px no-repeat,
+              linear-gradient(#6e56cf, #6e56cf) 4px 9px / 7px 2px no-repeat,
+              linear-gradient(#6e56cf, #6e56cf) 4px 13px / 9px 2px no-repeat,
+              rgba(110, 86, 207, 0.18);
+}

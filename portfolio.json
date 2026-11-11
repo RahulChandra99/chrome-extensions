@@ -2,20 +2,21 @@
   "category": "extensions",
   "items": [
     {
-      "title": "YouTube Exact Summarizer",
+      "title": "Video to Notes",
       "path": "youtube-summarizer",
-      "summary": "Adds a summary panel to YouTube that turns the transcript into sorted notes with clickable timestamps.",
+      "summary": "A side panel that turns any captioned video into organised notes with clickable timestamps, a searchable transcript and a place to ask questions.",
       "highlights": [
-        "Reads the caption track, with the transcript panel as a fallback",
-        "Streams a structured summary from the Claude API",
-        "Every point links back to its moment in the video"
+        "Reads captions on YouTube, Vimeo and any page with an HTML5 video",
+        "Three note lengths, streamed from the Claude API with the transcript cached for follow-up questions",
+        "Sends notes to Notion, Markdown files, Obsidian or a webhook"
       ],
       "tags": [
         "JavaScript",
         "Chrome MV3",
         "Claude API"
       ],
-      "status": "active"
+      "status": "active",
+      "image": "youtube-summarizer/docs/notes.png"
     }
   ]
 }
